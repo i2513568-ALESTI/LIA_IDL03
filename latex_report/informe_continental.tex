@@ -1,0 +1,513 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- PAQUETES FUNDAMENTALES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[margin=2.5cm,top=2.8cm,bottom=2.8cm]{geometry}
+\usepackage{lmodern} % Fuentes vectoriales escalables (elimina error de auto expansion)
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+
+% --- COLORES CORPORATIVOS INSTITUCIONALES ---
+\definecolor{ContinentalRed}{RGB}{180, 20, 30}
+\definecolor{ContinentalBlue}{RGB}{20, 50, 95}
+\definecolor{ContinentalDark}{RGB}{35, 35, 35}
+\definecolor{ContinentalLightGray}{RGB}{245, 246, 248}
+\definecolor{ContinentalBorder}{RGB}{210, 215, 225}
+
+% --- HIPERVÍNCULOS ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ContinentalBlue,
+    citecolor=ContinentalRed,
+    urlcolor=ContinentalBlue,
+    pdftitle={Informe de Implementacion IA - Riesgo Crediticio},
+    pdfauthor={Christian Henry Casso Quispe},
+    pdfsubject={Logica para la Inteligencia Artificial}
+}
+
+% --- CONFIGURACIÓN DE PÁGINA Y ENCABEZADOS ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{\textbf{Instituto Continental} | Lógica para la Inteligencia Artificial}}
+\fancyhead[R]{\small\textcolor{gray}{Evaluación de Riesgo Crediticio}}
+\fancyfoot[L]{\small\textcolor{gray}{Caso Práctico: Clasificación Imbalanceada (ML \& DL)}}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% --- FORMATO DE TÍTULOS ---
+\titleformat{\section}
+  {\color{ContinentalBlue}\normalfont\Large\bfseries}
+  {\color{ContinentalBlue}\thesection.}{0.8em}{}
+  [\vspace{-0.2em}\rule{\textwidth}{0.8pt}]
+
+\titleformat{\subsection}
+  {\color{ContinentalDark}\normalfont\large\bfseries}
+  {\color{ContinentalRed}\thesubsection}{0.6em}{}
+
+\titleformat{\subsubsection}
+  {\color{ContinentalDark}\normalfont\normalsize\bfseries}
+  {\thesubsubsection}{0.5em}{}
+
+% --- CAJAS DE TEXTO PERSONALIZADAS ---
+\newtcolorbox{resumenbox}{
+  colback=ContinentalLightGray,
+  colframe=ContinentalBlue,
+  arc=3mm,
+  boxrule=1.2pt,
+  left=15pt,
+  right=15pt,
+  top=10pt,
+  bottom=10pt
+}
+
+\newtcolorbox{hallazgobox}{
+  colback=ContinentalLightGray,
+  colframe=ContinentalRed,
+  arc=2mm,
+  boxrule=1pt,
+  left=12pt,
+  right=12pt,
+  top=8pt,
+  bottom=8pt
+}
+
+\begin{document}
+
+% ==============================================================================
+% PORTADA INSTITUCIONAL (PLANTILLA INSTITUTO CONTINENTAL)
+% ==============================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{-1cm}
+    
+    % Logotipo Institucional
+    \IfFileExists{images/logo_continental_image2.png}{
+        \includegraphics[width=0.45\textwidth]{images/logo_continental_image2.png}
+    }{
+        {\Huge\textbf{\color{ContinentalRed}INSTITUTO CONTINENTAL}}\par
+    }
+    
+    \vspace{1.8cm}
+    
+    {\Large\scshape\textbf{\color{ContinentalBlue}CARRERA PROFESIONAL DE COMPUTACIÓN E INFORMÁTICA}}\\[0.3cm]
+    {\large\textbf{\color{ContinentalDark}UNIDAD DIDÁCTICA: LÓGICA PARA LA INTELIGENCIA ARTIFICIAL}}\par
+    
+    \vspace{1.5cm}
+    \rule{\textwidth}{1.5pt}\\[0.4cm]
+    {\LARGE\bfseries\color{ContinentalRed} INFORME DE IMPLEMENTACIÓN DE UN PROBLEMA DE CIENCIA DE DATOS USANDO MACHINE LEARNING Y DEEP LEARNING}\\[0.3cm]
+    {\Large\bfseries\color{ContinentalBlue} Predicción de Default Crediticio a 12 Meses (\texttt{FLG\_CLI\_DEF60}) en Cartera de Clientes Mediante Clasificación Imbalanceada}\\[0.2cm]
+    \rule{\textwidth}{1.5pt}
+    
+    \vspace{0.8cm}
+    {\large\textbf{Indicador de Logro 3:}}\\[0.2cm]
+    \textit{``Implementa la lógica de algoritmos de IA en función de soluciones prácticas en proyectos de ciencia de datos.''}
+    
+    \vfill
+    
+    \begin{minipage}{0.52\textwidth}
+        \textbf{\color{ContinentalBlue}Elaborado por:}\\[0.15cm]
+        \textbf{Estudiante:} Christian Henry Casso Quispe\\
+        \textbf{Código:} i2513568\\
+        \textbf{Carrera:} Computación e Informática
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.44\textwidth}
+        \raggedleft
+        \textbf{\color{ContinentalBlue}Solicitado por:}\\[0.15cm]
+        \textbf{Docente:} Max Walter Alonzo Huamán\\
+        \textbf{Unidad Didáctica:} Lógica para la IA\\
+        \textbf{Período Académico:} 2026-II
+    \end{minipage}
+    
+    \vspace{0.8cm}
+    \begin{tcolorbox}[colback=white,colframe=ContinentalBlue,arc=2mm,boxrule=0.8pt,halign=center]
+        \small\textbf{\color{ContinentalBlue}Repositorio Oficial de GitHub (Código y Notebook):}\\
+        \url{https://github.com/i2513568-ALESTI/LIA_IDL03}
+    \end{tcolorbox}
+    
+    \vspace{1.5cm}
+    {\large\textbf{Huancayo, Noviembre de 2026}}
+\end{titlepage}
+
+% ==============================================================================
+% PÁGINA DE RESUMEN Y METADATOS
+% ==============================================================================
+\newpage
+\pagenumbering{roman}
+
+\begin{resumenbox}
+\begin{center}
+    {\large\bfseries\color{ContinentalBlue} RESUMEN EJECUTIVO}
+\end{center}
+\vspace{0.2cm}
+El presente informe documenta el desarrollo, entrenamiento, validación y sustentación técnica de dos soluciones avanzadas de Inteligencia Artificial aplicadas a la gestión del riesgo de crédito en una cartera bancaria de 50,591 clientes: el ensamble potenciado por gradiente \textbf{XGBoost} y una arquitectura de Red Neuronal Profunda Tabular con Bloques Residuales (\textbf{Tabular ResNet} en PyTorch). El objetivo primordial consiste en predecir con alta precisión el evento de \textit{default} crediticio a 12 meses (\texttt{FLG\_CLI\_DEF60}), caracterizado por un severo desbalance de clases (tasa de impago del 10.70\%, ratio 8.34 a 1). 
+
+A partir del análisis exploratorio orientado al negocio, se validó la hipótesis crítica del equipo de Políticas: los clientes con atrasos en los últimos 12 meses exhiben una probabilidad de default del 12.47\%, frente al 2.34\% observado en clientes sin atrasos (un diferencial de riesgo de 5.3x). Tras aplicar preprocesamiento robusto ante distorsiones extremas en ratios de deuda y calibrar la penalización mediante \texttt{scale\_pos\_weight = 8.343}, ambos algoritmos fueron sometidos a un benchmarking exhaustivo bajo estándares bancarios. El modelo \textbf{XGBoost} alcanzó un ROC-AUC de \textbf{0.8297}, un Coeficiente de Gini de \textbf{0.6593}, un PR-AUC de \textbf{0.5085} y un Estadístico Kolmogorov-Smirnov (KS) de \textbf{49.88\%}, superando consistentemente a la Red Neuronal y garantizando plena explicabilidad mediante la atribución de importancia por Ganancia (\textit{Gain}). Finalmente, se efectuó la optimización del umbral de decisión bajo una matriz de costos financieros, logrando capturar más del 78\% de los potenciales defaults del portafolio.
+
+\vspace{0.3cm}
+\textbf{Palabras Clave:} Riesgo Crediticio, Clasificación Imbalanceada, XGBoost, PyTorch, Redes Residuales Tabulares, Curva ROC, Kolmogorov-Smirnov, Políticas de Crédito.
+\end{resumenbox}
+
+\vspace{0.5cm}
+
+% ==============================================================================
+% ÍNDICES
+% ==============================================================================
+\tableofcontents
+\newpage
+\listoffigures
+\vspace{0.5cm}
+\listoftables
+\newpage
+\pagenumbering{arabic}
+
+% ==============================================================================
+% 1. INTRODUCCIÓN Y CONTEXTO
+% ==============================================================================
+\section{Introducción y Contexto del Caso de Negocio}
+
+\subsection{Planteamiento del Problema en la Banca Retail}
+En las instituciones bancarias y de intermediación financiera contemporáneas, la gestión integral del riesgo de crédito representa el núcleo estratégico para asegurar la solvencia patrimonial y la rentabilidad sostenible. Un portafolio crediticio se encuentra constantemente expuesto a la probabilidad de que los deudores incumplan sus obligaciones contractuales de pago. Frente a este desafío, la Gerencia de Riesgos y el equipo de Políticas Crediticias requieren herramientas analíticas de alta capacidad discriminante que permitan segmentar la cartera de clientes de manera preventiva y no reactiva.
+
+El objetivo central del modelamiento radica en \textbf{direccionar las políticas del proceso crediticio}:
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Políticas Más Rigurosas:} Aplicables a clientes clasificados en el tramo de alto riesgo (menores límites de endeudamiento, exigencia de garantías líquidas o avales, tasas ajustadas por riesgo o rechazo oportuno en originación).
+    \item \textbf{Políticas Más Flexibles y Ágiles:} Aplicables a clientes con excelente perfil de pago (aprobación automática de créditos de consumo, ampliación proactiva de líneas de tarjeta y tasas de interés preferenciales).
+\end{itemize}
+
+\subsection{Definición de la Variable Objetivo de Default (\texttt{FLG\_CLI\_DEF60})}
+De acuerdo con las directrices regulatorias de la Superintendencia de Banca, Seguros y AFP (SBS) y las mejores prácticas de Basilea III, el evento de incumplimiento o \textit{default} se estandariza a nivel temporal y de severidad:
+\begin{quote}
+\textit{``Se observa el comportamiento de pagos del cliente durante una ventana de desempeño de 12 meses posteriores a la fecha de corte. Si en dicho intervalo el atraso máximo acumulado supera o iguala el umbral de 60 días continuos, se cataloga al cliente en estado de default:''}
+\end{quote}
+\begin{equation}
+\text{\texttt{FLG\_CLI\_DEF60}}_i = 
+\begin{cases} 
+1, & \text{si } \max_{t \in [1, 12]} (\text{Días de Atraso}_{i,t}) \ge 60 \\
+0, & \text{en caso contrario (cliente cumplidor)}
+\end{cases}
+\end{equation}
+
+\subsection{Desafío Cuantitativo: Clasificación Imbalanceada}
+El fenómeno del incumplimiento crediticio es por naturaleza un evento minoritario. En carteras de clientes activos (stock bancario), la inmensa mayoría de prestatarios abona sus cuotas a tiempo, mientras que solo una fracción reducida cae en mora severa. Los clasificadores tradicionales de aprendizaje automático que optimizan el \textit{Accuracy} global tienden a ignorar a la clase minoritaria, pronosticando erróneamente que todos los clientes son cumplidores. Por ello, el presente proyecto aborda formalmente la corrección del desbalance a través de funciones de pérdida ponderadas y modelos no lineales avanzados de Machine Learning y Deep Learning.
+
+% ==============================================================================
+% 2. EXPLORACIÓN DE DATOS Y HALLAZGOS
+% ==============================================================================
+\section{Catálogo de Variables y Análisis Exploratorio de Datos (EDA)}
+
+\subsection{Integración de Datos y Diccionario de Variables}
+Para el desarrollo del modelo se dispone del conjunto de datos \texttt{base10.csv}, compuesto por \textbf{50,591 registros} históricos correspondientes al stock de clientes entre los períodos 201701 y 201803. La base consolida un total de 10 variables explicativas previamente filtradas y seleccionadas por su poder predictivo a partir de más de 44 variables internas del banco y del buró de crédito consolidado (Registro de Deudores de la SBS / RCC).
+
+\begin{table}[H]
+\centering
+\small
+\caption{Catálogo de Variables Predictivas Seleccionadas (\texttt{base10.csv} y \texttt{DICCIONARIO.xlsx})}
+\label{tab:catalogo_vars}
+\begin{tabular}{lllp{7.2cm}}
+\toprule
+\textbf{N.º} & \textbf{Campo} & \textbf{Tipo} & \textbf{Definición Operativa en el Negocio} \\
+\midrule
+1 & \texttt{MAX\_ATR\_I\_12M} & Entero & Nro. máximo de días de atraso registrados en los últimos 12 meses. \\
+2 & \texttt{NMES\_ATR15\_I\_U6K\_24M} & Entero & Meses con atrasos $\ge 15$ días en los últimos 6 meses de actividad (ventana 24M). \\
+3 & \texttt{RTOT\_DACT\_DTOT\_24M} & Continuo & Ratio del total de deuda activa sobre la deuda total en el sistema (24 meses). \\
+4 & \texttt{VAR\_PROM\_ENT\_ACTU\_24M} & Continuo & Variación del nro. de entidades acreedoras promedio en 18M respecto a la actual. \\
+5 & \texttt{NMES\_UATR3\_I\_24M} & Entero & Nro. de meses transcurridos desde el último atraso $\ge 3$ días observado (24M). \\
+6 & \texttt{VAR\_PROM\_DEUDIR\_ACTU\_12M} & Continuo & Variación de la deuda directa promedio en los últimos 12M respecto a la actual. \\
+7 & \texttt{INC\_SUM\_ACTSH\_ACTU\_24M} & Continuo & Ratio de la deuda activa sin hipoteca acumulada respecto a la deuda activa actual. \\
+8 & \texttt{MAX\_ENT\_12M} & Entero & Nro. máximo de entidades financieras acreedoras concurrentes en 12 meses. \\
+9 & \texttt{N\_NOR\_24M} & Entero & Nro. de meses calificado como deudor ``NORMAL'' en el sistema en 24 meses. \\
+10 & \texttt{NMES\_UATR15\_I\_U6K\_24M} & Entero & Distancia en meses desde el último atraso $\ge 15$ días en los últimos 6 meses. \\
+\midrule
+\textbf{Target} & \texttt{FLG\_CLI\_DEF60} & Binario & \textbf{Variable Objetivo: 1 = Default a 12 meses ($\ge 60$ días), 0 = Cumplidor.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Magnitud del Desbalance en la Cartera}
+El diagnóstico cuantitativo confirma una distribución marcadamente asimétrica:
+\begin{itemize}
+    \item \textbf{Clientes Cumplidores (Clase 0):} 45,176 registros (\textbf{89.30\%} del total).
+    \item \textbf{Clientes en Default (Clase 1):} 5,415 registros (\textbf{10.70\%} del total).
+    \item \textbf{Ratio de Desbalance Empírico:} $\frac{45,176}{5,415} = \mathbf{8.3427}$ clientes negativos por cada cliente en mora.
+\end{itemize}
+
+\subsection{Hallazgo Estratégico para el Equipo de Políticas}
+El equipo de Políticas Crediticias solicitó específicamente evaluar si existe un comportamiento diferencial sustantivo entre los clientes con antecedentes de atraso y aquellos que jamás presentaron moras en su historial. Los resultados del análisis bivariado arrojaron una confirmación empírica contundente:
+
+\begin{hallazgobox}
+\textbf{\color{ContinentalRed}Hallazgo Clave de Políticas:}\\
+\begin{itemize}[leftmargin=1cm]
+    \item \textbf{Clientes SIN Atraso en 12M (\texttt{MAX\_ATR\_I\_12M == 0}):} Representan el \textbf{17.43\%} de la cartera (8,820 clientes). En este segmento, únicamente 206 clientes incurren en default posterior, registrando una tasa de siniestralidad de apenas \textbf{2.34\%}.
+    \item \textbf{Clientes CON Atraso en 12M (\texttt{MAX\_ATR\_I\_12M > 0}):} Representan el \textbf{82.57\%} de la cartera (41,771 clientes). En este grupo, 5,209 clientes caen en default, elevando la tasa de siniestralidad al \textbf{12.47\%}.
+    \item \textbf{Diferencial de Riesgo Relativo:}
+    \begin{equation}
+    \text{Riesgo Relativo (RR)} = \frac{\text{Tasa}_{\text{con atraso}}}{\text{Tasa}_{\text{sin atraso}}} = \frac{12.47\%}{2.34\%} \approx \mathbf{5.33}
+    \end{equation}
+\end{itemize}
+Un cliente que ha mostrado incluso un atraso mínimo en los últimos 12 meses tiene más de \textbf{5.3 veces más riesgo} de caer en default severo a 60 días frente a un cliente que se mantuvo al día.
+\end{hallazgobox}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{images/eda_distributions.png}
+    \caption{Diagnóstico Exploratorio de Datos (EDA): Distribución de clases, riesgo diferencial según atraso, correlación de variables con el default y boxplot de mora severa.}
+    \label{fig:eda_plots}
+\end{figure}
+
+\subsection{Detección de Valores Atípicos Extremos (Outliers)}
+El análisis de percentiles reveló anomalías matemáticas de alta severidad en variables de ratio de endeudamiento. Particularmente, la variable \texttt{INC\_SUM\_ACTSH\_ACTU\_24M} presenta una media de $9.66 \times 10^6$ y un valor máximo de \textbf{5,555,555,555.00} (5.5 mil millones), a pesar de que su percentil 99 es apenas 137.68. Este fenómeno obedece a clientes cuya deuda activa actual es infinitesimal o nula al momento del corte, generando divisiones por cero o valores centinela codificados por el sistema de buró. 
+
+Este hallazgo es crucial: mientras que los árboles de decisión son inmunes a estas escalas por trabajar con particiones monótonas de rango, una Red Neuronal sufriría una explosión matemática inmediata al calcular combinaciones lineales $W^T x + b$.
+
+% ==============================================================================
+% 3. PREPROCESAMIENTO Y VALIDACIÓN
+% ==============================================================================
+\section{Metodología de Preprocesamiento y Validación Cruzada}
+
+\subsection{Tratamiento Robusto de Outliers (Winsorización)}
+Para salvaguardar la estabilidad estocástica de los gradientes en el modelo de Deep Learning sin alterar la ordenación relativa requerida por los modelos de árboles, se implementó un esquema de \textbf{Winsorización al percentil 99.5\%}:
+\begin{align}
+\tilde{x}_{ij} &= \min\left(x_{ij}, \, P_{99.5}(X_j)\right) \\
+\forall j &\in \{\text{\texttt{INC\_SUM\_ACTSH\_ACTU\_24M}}, \text{\texttt{VAR\_PROM\_DEUDIR\_ACTU\_12M}}, \text{\texttt{MAX\_ATR\_I\_12M}}\} \nonumber
+\end{align}
+Esto redujo el techo de \texttt{INC\_SUM\_ACTSH\_ACTU\_24M} de $5.55 \times 10^9$ a 237.52, eliminando valores espurios y reteniendo el 100\% de la información fáctica de los clientes.
+
+\subsection{Partición Estratificada Train/Test}
+Se estructuró una partición estratificada del 80\% para entrenamiento ($N_{\text{train}} = 40,472$) y 20\% para evaluación independiente ($N_{\text{test}} = 10,119$). La estratificación garantiza que la tasa de default se mantenga exactamente en \textbf{10.70\%} en ambos conjuntos, evitando sesgos muestrales.
+
+\subsection{Formulación Matemática de la Ponderación de Clases}
+Para obligar a los algoritmos a penalizar con mayor severidad los Falsos Negativos (clientes que hacen default y no son detectados), se calculó analíticamente el hiperparámetro de compensación:
+\begin{equation}
+\text{\texttt{scale\_pos\_weight}} = \frac{N_{\text{train, buenos}}}{N_{\text{train, malos}}} = \frac{36,140}{4,332} \approx \mathbf{8.3426}
+\end{equation}
+De esta manera, en la función de pérdida cada error sobre un cliente en default pesa exactamente 8.34 veces más que un error sobre un cliente cumplidor.
+
+% ==============================================================================
+% 4. ALGORITMO 1: XGBOOST
+% ==============================================================================
+\section{Implementación del Algoritmo 1: XGBoost (Gradient Boosting)}
+
+\subsection{Fundamentación Teórica del Algoritmo}
+XGBoost (\textit{Extreme Gradient Boosting}) optimiza una función objetivo regularizada en el espacio de árboles aditivos mediante la expansión de Taylor de segundo orden:
+\begin{equation}
+\mathcal{L}^{(t)} \approx \sum_{i=1}^n \left[ g_i f_t(x_i) + \frac{1}{2} h_i f_t^2(x_i) \right] + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2
+\end{equation}
+donde $g_i$ y $h_i$ corresponden a la primera y segunda derivada (gradiente y hessiano) de la función de pérdida logística. Con la inclusión de $\text{\texttt{scale\_pos\_weight}} = w_{\text{pos}}$:
+\begin{equation}
+g_i = 
+\begin{cases} 
+w_{\text{pos}}(p_i - 1), & \text{si } y_i = 1 \\
+p_i, & \text{si } y_i = 0
+\end{cases}, \qquad
+h_i = 
+\begin{cases} 
+w_{\text{pos}} p_i(1 - p_i), & \text{si } y_i = 1 \\
+p_i(1 - p_i), & \text{si } y_i = 0
+\end{cases}
+\end{equation}
+
+\subsection{Hiperparámetros y Entrenamiento}
+Se configuró el estimador con \texttt{learning\_rate = 0.04}, \texttt{max\_depth = 4}, \texttt{min\_child\_weight = 3}, \texttt{subsample = 0.85}, \texttt{colsample\_bytree = 0.85} y 350 estimadores, monitoreando el área bajo la curva Precision-Recall (\texttt{aucpr}) con parada temprana.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{images/xgb_feature_importance.png}
+    \caption{Importancia de Variables en XGBoost evaluada bajo el criterio de Ganancia (\textit{Gain}).}
+    \label{fig:xgb_importance}
+\end{figure}
+
+\subsection{Análisis de los Drivers de Riesgo}
+Como se aprecia en la Figura \ref{fig:xgb_importance}, los factores determinantes del modelo son:
+\begin{enumerate}
+    \item \textbf{\texttt{MAX\_ATR\_I\_12M}:} Principal predictor por amplia ventaja, confirmando que el historial de morosidad reciente es el indicador más elocuente del riesgo de impago futuro.
+    \item \textbf{\texttt{VAR\_PROM\_DEUDIR\_ACTU\_12M}:} La contracción o expansión abrupta del endeudamiento directo revela fragilidad de liquidez.
+    \item \textbf{\texttt{NMES\_ATR15\_I\_U6K\_24M}:} La reiteración de atrasos significativos ($\ge 15$ días) en ventanas recientes evidencia deterioro progresivo de solvencia.
+\end{enumerate}
+
+% ==============================================================================
+% 5. ALGORITMO 2: PYTORCH TABULAR RESNET
+% ==============================================================================
+\section{Implementación del Algoritmo 2: Red Neuronal Tabular ResNet (PyTorch)}
+
+\subsection{Diseño Arquitectónico Deep Learning}
+Para abordar datos tabulares de crédito, una red neuronal densa convencional suele sobreajustar o degradar su aprendizaje. Se diseñó por tanto una arquitectura \textbf{Tabular ResNet} integrada en PyTorch, caracterizada por:
+\begin{enumerate}
+    \item \textbf{Capa de Proyección Inicial:} Entrada de 10 características proyectada a un espacio latente de 64 dimensiones con normalización por lotes (\texttt{BatchNorm1d}) y activación \texttt{LeakyReLU(0.1)}.
+    \item \textbf{Bloque Residual (Skip Connection):}
+    \begin{equation}
+    h_{\text{res}} = \sigma\left(h_0 + \mathcal{F}(h_0; \mathcal{W})\right)
+    \end{equation}
+    donde $\mathcal{F}$ consta de dos capas densas de 64 neuronas con normalización y dropout ($p=0.25$). La conexión directa permite que el gradiente fluya sin disipación hacia las capas iniciales.
+    \item \textbf{Capa Densa y Salida:} Reducción a 32 dimensiones y proyección lineal final a un logit escalar $\hat{z}_i$.
+\end{enumerate}
+
+\subsection{Pérdida Ponderada y Estabilidad Numérica}
+Se utilizó la función de pérdida \texttt{nn.BCEWithLogitsLoss(pos\_weight=8.343)}, combinando la sigmoide y la entropía cruzada binaria en una única formulación matemáticamente estable:
+\begin{equation}
+\mathcal{L}_i = - \left[ w_{\text{pos}} y_i \log \sigma(\hat{z}_i) + (1 - y_i) \log (1 - \sigma(\hat{z}_i)) \right]
+\end{equation}
+El entrenamiento se ejecutó con optimizador \texttt{AdamW} (tasa de aprendizaje 0.003, weight decay $10^{-4}$), tamaño de lote de 512 y reducción dinámica de tasa mediante \texttt{ReduceLROnPlateau}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/nn_training_curves.png}
+    \caption{Curvas de Aprendizaje de la Red Neuronal Tabular: Evolución de la pérdida ponderada y de las métricas de discriminación en validación.}
+    \label{fig:nn_training}
+\end{figure}
+
+% ==============================================================================
+% 6. VALIDACIÓN Y BENCHMARKING COMPARATIVO
+% ==============================================================================
+\section{Validación, Prueba y Benchmarking Exhaustivo de Algoritmos}
+
+\subsection{Métricas de Evaluación en Riesgo Crediticio}
+En carteras con desbalance no se utiliza el Accuracy simple. Las métricas estándares del sector bancario empleadas son:
+\begin{itemize}
+    \item \textbf{ROC-AUC y Coeficiente de Gini ($2 \times \text{AUC} - 1$):} Evalúa la capacidad del modelo para ordenar a los clientes de menor a mayor riesgo sin depender de un punto de corte fijo.
+    \item \textbf{PR-AUC (Average Precision):} Área bajo la curva Precision-Recall. Métrica de referencia estricta en eventos poco frecuentes.
+    \item \textbf{Estadístico Kolmogorov-Smirnov (KS):}
+    \begin{equation}
+    \text{KS} = \max_{s} |F_{\text{malos}}(s) - F_{\text{buenos}}(s)|
+    \end{equation}
+    Mide la distancia vertical máxima entre las funciones de distribución acumulada de clientes morosos y clientes cumplidores. En banca retail, un KS $\ge 40\%$ denota un modelo de excelente discriminación.
+    \item \textbf{Brier Score:} Evalúa la calibración o exactitud de las probabilidades continuas pronosticadas frente a los desenlaces reales (menor es mejor).
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Tabla Comparativa Consolidada de Rendimiento en el Conjunto de Test ($N = 10,119$)}
+\label{tab:benchmark}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Indicador Cuantitativo} & \textbf{XGBoost} & \textbf{Red Neuronal Tabular} & \textbf{Diferencial ($\Delta$)} \\
+\midrule
+\textbf{ROC-AUC} & \textbf{0.8297} & 0.8269 & +0.0028 (XGBoost) \\
+\textbf{Coeficiente de GINI ($2\cdot\text{AUC}-1$)} & \textbf{0.6593} & 0.6538 & +0.0055 (XGBoost) \\
+\textbf{PR-AUC (Average Precision)} & \textbf{0.5085} & 0.5038 & +0.0047 (XGBoost) \\
+\textbf{Estadístico KS (Separación Máxima)} & \textbf{49.88\%} & 49.32\% & +0.56\% (XGBoost) \\
+\textbf{Punto de Corte KS (Score)} & 0.443 & 0.419 & -- \\
+\textbf{Brier Score (Calibración)} & \textbf{0.1608} & 0.1635 & -0.0027 (Mejor XGBoost) \\
+Recall @ Umbral Estándar 0.50 & 68.79\% & \textbf{72.15\%} & +3.36\% (Red Neuronal) \\
+Precision @ Umbral Estándar 0.50 & \textbf{29.74\%} & 28.51\% & +1.23\% (XGBoost) \\
+F1-Score @ Umbral Estándar 0.50 & \textbf{0.4152} & 0.4087 & +0.0065 (XGBoost) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{images/model_comparison_curves.png}
+    \caption{Curvas Comparativas de Desempeño: (a) ROC con área y Gini; (b) Precision-Recall con tasa base del 10.7\%; (c) Separación Kolmogorov-Smirnov (KS); (d) Matriz de confusión de XGBoost al umbral 0.50.}
+    \label{fig:comparison_curves}
+\end{figure}
+
+% ==============================================================================
+% 7. OPTIMIZACIÓN DEL UMBRAL
+% ==============================================================================
+\section{Optimización del Umbral de Decisión y Análisis de Costo-Beneficio}
+
+\subsection{Insuficiencia del Umbral Estándar de 0.50}
+El umbral ciego de 0.50 asume que un Falso Positivo (FP) y un Falso Negativo (FN) acarrean idéntico impacto económico. En la banca real:
+\begin{itemize}
+    \item \textbf{Costo de un Falso Negativo ($C_{\text{FN}}$):} Aprobar a un cliente que entrará en default superior a 60 días implica la pérdida de capital prestado (Pérdida en caso de incumplimiento o LGD).
+    \item \textbf{Costo de un Falso Positivo ($C_{\text{FP}}$):} Rechazar o alertar a un cliente que hubiera pagado representa un costo de oportunidad (margen financiero de intereses no percibido).
+\end{itemize}
+Generalmente en banca de consumo se cumple que $C_{\text{FN}} \approx 4\text{ a }6 \times C_{\text{FP}}$. Modelando la función de costo:
+\begin{equation}
+\text{Costo Total} = 5.0 \times \text{FN} + 1.0 \times \text{FP}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{images/threshold_cost_optimization.png}
+    \caption{Optimización de Políticas: Curva de compromiso Precision vs. Recall vs. F1 y Matriz de Confusión al Umbral Óptimo de Costos Financieros.}
+    \label{fig:threshold_tuning}
+\end{figure}
+
+\subsection{Resultados de la Calibración de Umbral}
+\begin{itemize}
+    \item \textbf{Umbral Estándar ($t = 0.50$):} Recall del 68.79\%, F1 de 0.4152. Se dejan escapar 338 defaults (pérdidas crediticias severas).
+    \item \textbf{Umbral Óptimo por Función de Costo ($t = 0.41$):} El Recall se incrementa al \textbf{78.49\%}, capturando a 850 de los 1,083 clientes morosos del conjunto de prueba y reduciendo la pérdida neta del banco en más de 20\% respecto al corte no calibrado.
+\end{itemize}
+
+% ==============================================================================
+% 8. SUSTENTACIÓN Y SELECCIÓN DEL MODELO FINAL
+% ==============================================================================
+\section{Sustentación de la Selección del Modelo Final (Consignas 2 y 3)}
+
+\subsection{Respuesta a la Consigna 2: Etapas del Modelamiento y Hallazgos}
+Durante el proceso integral de modelamiento se cubrieron las siguientes etapas clave:
+\begin{enumerate}
+    \item \textbf{Exploración y Diagnóstico de Negocio:} Se confirmó la tasa base de default (10.70\%) y se descubrió que los clientes con historial de atraso presentan un riesgo 5.3 veces mayor que aquellos sin atrasos, respondiendo exactamente a la necesidad del equipo de Políticas.
+    \item \textbf{Saneamiento y Preprocesamiento Profesional:} Se corrigieron distorsiones masivas en ratios de deuda mediante Winsorización al percentil 99.5\%, evitando anomalías numéricas en Deep Learning.
+    \item \textbf{Compensación Matemática de Clases:} Se implementó la ponderación analítica $\text{\texttt{scale\_pos\_weight}} = 8.343$, priorizando el aprendizaje sobre los defaults.
+    \item \textbf{Entrenamiento y Ajuste Algorítmico:} Se integraron dos soluciones robustas: XGBoost con regularización $L_1/L_2$ y Tabular ResNet con conexiones residuales y normalización por lotes en PyTorch.
+    \item \textbf{Evaluación y Calibración Financiera:} Se efectuó un benchmarking comparativo bajo métricas de Basilea (Gini, KS, PR-AUC) y se optimizó el umbral de corte bajo matrices de costo crediticio.
+\end{enumerate}
+
+\subsection{Respuesta a la Consigna 3: Sustentación del Modelo Seleccionado}
+Se dictamina de forma concluyente que el modelo seleccionado para producción en el banco es \textbf{XGBoost}. 
+
+\textbf{Fundamentación Técnica y de Negocio:}
+\begin{enumerate}
+    \item \textbf{Supremacía en Métricas de Discriminación:} XGBoost supera a la Red Neuronal en ROC-AUC (0.8297 vs 0.8269), Coeficiente de Gini (65.93\% vs 65.38\%), PR-AUC (50.85\% vs 50.38\%) y Separación KS (49.88\% vs 49.32\%).
+    \item \textbf{Adecuación a Estructuras Tabulares:} Los árboles de decisión no requieren linealidad ni supuestos de continuidad suave en las fronteras de decisión, capturando de forma natural los quiebres abruptos de comportamiento financiero.
+    \item \textbf{Gobernanza y Explicabilidad Algorítmica (XAI):} En la industria bancaria supervisada, la Ley y las normas de la SBS exigen que los modelos de otorgamiento no operen como cajas negras inescrutables. XGBoost permite auditar exactamente qué variables justificaron la denegación o aprobación de una solicitud mediante árboles transparentes y métricas de ganancia, identificando a \texttt{MAX\_ATR\_I\_12M} y \texttt{VAR\_PROM\_DEUDIR\_ACTU\_12M} como los factores críticos.
+    \item \textbf{Eficiencia y Despliegue en Tiempo Real:} El modelo XGBoost posee una latencia de inferencia de microsegundos en CPU estándar, integrándose fácilmente a los motores de políticas del banco sin dependencias pesadas de tensores.
+\end{enumerate}
+
+\subsection{Recomendaciones de Políticas para el Proceso Crediticio}
+Con base en el modelo final XGBoost, se formulan las siguientes directrices operativas:
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Segmento Verde (Score de Probabilidad $< 0.25$):} Clientes de muy bajo riesgo. Habilitar otorgamiento automatizado (\textit{straight-through processing}), incremento proactivo de límites de crédito y tasas de interés preferenciales.
+    \item \textbf{Segmento Ámbar (Score de Probabilidad entre $0.25$ y $0.50$):} Clientes de riesgo moderado. Aplicar evaluación paramétrica con verificación actualizada de ingresos y requerimiento de aval o fiador solidario si el monto supera el umbral patrimonial.
+    \item \textbf{Segmento Rojo (Score de Probabilidad $> 0.50$):} Clientes de alto riesgo (con atrasos reiterados o fuerte aumento de deuda externa). Rechazo en originación, bloqueo preventivo de líneas no utilizadas y derivación inmediata al equipo de cobranza preventiva temprana.
+\end{enumerate}
+
+% ==============================================================================
+% 9. CONCLUSIONES
+% ==============================================================================
+\section{Conclusiones}
+
+\begin{enumerate}[leftmargin=1.2cm]
+    \item Se implementó exitosamente la lógica y matemática de dos paradigmas de Inteligencia Artificial (Gradient Boosting y Deep Learning Tabular) en función de un caso práctico bancario, cumpliendo rigurosamente el \textbf{Indicador de Logro 3}.
+    \item Se demostró que el historial de morosidad es el eje rector del comportamiento futuro: los clientes con atrasos en los últimos 12 meses exhiben una tasa de default del 12.47\% frente al 2.34\% de los clientes limpios, sustentando la necesidad de segmentar las políticas comerciales de acuerdo con el historial crediticio.
+    \item El algoritmo \textbf{XGBoost} demostró superioridad global frente a la Red Neuronal Tabular ResNet, alcanzando un ROC-AUC de \textbf{0.8297}, un GINI de \textbf{0.6593}, un PR-AUC de \textbf{0.5085} y un Estadístico KS de \textbf{49.88\%}, consolidándose como la opción idónea por su máxima capacidad discriminante y plena auditabilidad regulatoria.
+    \item La arquitectura de Red Neuronal Profunda con Conexiones Residuales (\textbf{Tabular ResNet}) demostró alta estabilidad y convergencia al incorporar \texttt{BatchNorm1d} y pérdida ponderada, logrando un excelente ROC-AUC de 0.8269, demostrando que el Deep Learning es competitivo en datos tabulares cuando se aplica un preprocesamiento cuidadoso.
+    \item La optimización del umbral de decisión reveló que el corte convencional de 0.50 es ineficiente en presencia de costos asimétricos. Al calibrar el punto de corte en $t = 0.41$, se logró elevar la captura de clientes insolventes al \textbf{78.49\%}, maximizando la protección del capital bancario.
+\end{enumerate}
+
+% ==============================================================================
+% 10. BIBLIOGRAFÍA
+% ==============================================================================
+\section{Bibliografía y Referencias Electrónicas}
+
+\begin{enumerate}[leftmargin=1.2cm]
+    \item Casso Quispe, C. H. (2026). \textit{LIA\_IDL03: Implementación de Algoritmos de Machine Learning (XGBoost) y Deep Learning (Tabular ResNet en PyTorch) para Clasificación Imbalanceada de Riesgo Crediticio}. Repositorio oficial de GitHub. Código y datos reproducibles: \url{https://github.com/i2513568-ALESTI/LIA_IDL03}
+    \item Chen, T., \& Guestrin, C. (2016). \textit{XGBoost: A Scalable Tree Boosting System}. En Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (pp. 785–794). ACM. \url{https://doi.org/10.1145/2939672.2939785}
+    \item He, K., Zhang, X., Ren, S., \& Sun, J. (2016). \textit{Deep Residual Learning for Image Recognition}. En IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (pp. 770–778).
+    \item Gorishniy, Y., Rubachev, I., Khrulkov, V., \& Babenko, A. (2021). \textit{Revisiting Deep Learning Models for Tabular Data}. En Advances in Neural Information Processing Systems (NeurIPS), 34, 18932–18943.
+    \item Chawla, N. V., Bowyer, K. W., Hall, L. O., \& Kegelmeyer, W. P. (2002). \textit{SMOTE: Synthetic Minority Over-sampling Technique}. Journal of Artificial Intelligence Research, 16, 321–357.
+    \item Goodfellow, I., Bengio, Y., \& Courville, A. (2016). \textit{Deep Learning}. MIT Press. \url{http://www.deeplearningbook.org}
+    \item Basel Committee on Banking Supervision (BCBS). (2017). \textit{Basel III: Finalising post-crisis reforms}. Bank for International Settlements (BIS). \url{https://www.bis.org/bcbs/publ/d424.htm}
+    \item Superintendencia de Banca, Seguros y AFP del Perú (SBS). (2021). \textit{Resolución SBS N.º 11356-2008: Reglamento para la Evaluación y Calificación del Deudor y la Exigencia de Provisiones}. SBS Perú. \url{https://www.sbs.gob.pe}
+    \item Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., et al. (2019). \textit{PyTorch: An Imperative Style, High-Performance Deep Learning Library}. En Advances in Neural Information Processing Systems (NeurIPS), 32, 8024–8035.
+    \item Hand, D. J., \& Till, R. J. (2001). \textit{A Simple Generalisation of the Area Under the ROC Curve for Multiple Class Problems}. Machine Learning, 45(2), 171–186.
+\end{enumerate}
+
+\end{document}

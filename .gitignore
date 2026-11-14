@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints & cache
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# LaTeX auxiliary files (preserving final .pdf and source .tex)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+latex_report/*.aux
+latex_report/*.log
+latex_report/*.out
+latex_report/*.toc
+latex_report/*.lof
+latex_report/*.lot
+
+# OS / Editor temporary files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary extraction folder
+docx_media/

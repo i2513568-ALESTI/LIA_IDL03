@@ -1,7 +1,7 @@
 # LIA_IDL03: Lógica para la Inteligencia Artificial - Indicador de Logro 3
 
 ## Clasificación Imbalanceada de Riesgo Crediticio con Machine Learning y Deep Learning
-**Instituto Continental — Carrera Profesional de Computación e Informática**
+**Instituto Continental — Carrera Profesional de Ciencia de Datos e Inteligencia Artificial**
 
 ---
 
@@ -10,7 +10,8 @@
 * **Docente:** **Max Walter Alonzo Huamán**
 * **Unidad Didáctica:** Lógica para la Inteligencia Artificial
 * **Indicador de Logro 3:** *Implementa la lógica de algoritmos de IA en función de soluciones prácticas en proyectos de ciencia de datos.*
-* **Período Académico:** 2026-II | Huancayo, Perú
+* **Carrera:** Ciencia de Datos e Inteligencia Artificial
+* **Ubicación:** Huancayo, Perú
 
 ---
 
